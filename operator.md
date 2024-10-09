@@ -55,12 +55,27 @@ conditions on enforcement actions, ex: pinging an issue twice at the same time.
 ## Configuration via Environment Variables
 
 Allstar supports various operator configuration options which can be set via environment variables:
-|Name|Description|Default|
-|----|----|----|
-|APP_ID|The application ID of the created GitHub App.||
-|PRIVATE_KEY|The raw value of the private key for the GitHub App. KEY_SECRET must be set to "direct".||
-|KEY_SECRET|The name of a secret containing a private key.||
-|DO_NOTHING_ON_OPT_OUT|Boolean flag which defines if allstar should do nothing and skip the corresponding checks when a repository is opted out.|false|
-|ALLSTAR_LOG_LEVEL|The minimum logging level that allstar should use when emitting logs. Acceptable values are: panic ; fatal ; error ; warn ; info ; debug ; trace|info|
-|NOTICE_PING_DURATION_HOURS|The duration (in hours) to wait between pinging notice actions, such as updating a GitHub issue.|24|
 
+| Name                       | Description                                                                                                                                      | Default |
+|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| APP_ID                     | The application ID of the created GitHub App.                                                                                                    ||
+| PRIVATE_KEY                | The raw value of the private key for the GitHub App. KEY_SECRET must be set to "direct".                                                         ||
+| KEY_SECRET                 | The name of a secret containing a private key.                                                                                                   ||
+| ALLSTAR_GHE_URL            | The URL of the GitHub Enterprise instance to use. Leave empty to use github.com                                                                  ||
+| DO_NOTHING_ON_OPT_OUT      | Boolean flag which defines if allstar should do nothing and skip the corresponding checks when a repository is opted out.                        | false   |
+| ALLSTAR_LOG_LEVEL          | The minimum logging level that allstar should use when emitting logs. Acceptable values are: panic ; fatal ; error ; warn ; info ; debug ; trace | info    |
+| NOTICE_PING_DURATION_HOURS | The duration (in hours) to wait between pinging notice actions, such as updating a GitHub issue.                                                 | 24      |
+
+## Self-hosted GitHub Enterprise specifics
+
+In case you want to operate Allstar with a self-hosted GitHub Enterprise instance, you need to set the `ALLSTAR_GHE_URL` environment variable to the URL of your GitHub Enterprise instance URL.
+The different API endpoints for API and upload are appended automatically.
+
+Example: 
+
+Given, your GHE instance URL is "https://my-ghe.example.com", you need to set the following environment variables:
+
+```shell
+export ALLSTAR_GHE_URL="https://my-ghe.example.com"
+export GH_HOST="my-ghe.example.com"  # This is used by the Scorecard dependency. Might result in errors if not set. 
+```
